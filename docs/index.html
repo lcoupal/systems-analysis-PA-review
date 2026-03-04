@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exploring Systems Like a Scientist — Assessment Review</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #003057;
+    --navy-light: #0a4a7a;
+    --gold: #B9975B;
+    --white: #ffffff;
+    --gray-50: #f8f9fa;
+    --gray-100: #e9ecef;
+    --gray-200: #dee2e6;
+    --gray-600: #6c757d;
+    --gray-800: #343a40;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 4px 24px rgba(0,0,0,0.12);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: var(--white);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-lg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-left h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .header-left p {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+  .header-badge {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── SELECTOR BAR ── */
+  .selector-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 16px 40px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    position: sticky;
+    top: 72px;
+    z-index: 99;
+  }
+
+  .doc-group {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .doc-group-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-600);
+    margin-right: 4px;
+    white-space: nowrap;
+  }
+  .doc-group-divider {
+    width: 1px;
+    height: 28px;
+    background: var(--gray-200);
+    margin: 0 12px;
+  }
+
+  .doc-btn {
+    padding: 8px 16px;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--gray-800);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .doc-btn:hover {
+    border-color: var(--navy);
+    color: var(--navy);
+    background: #f0f4f8;
+  }
+  .doc-btn.active {
+    background: var(--navy);
+    color: var(--white);
+    border-color: var(--navy);
+  }
+  .doc-btn .btn-tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .doc-btn .tag-design { background: #e3f2fd; color: #1565c0; }
+  .doc-btn .tag-brief { background: #e8f5e9; color: #2e7d32; }
+  .doc-btn.active .tag-design { background: rgba(255,255,255,0.2); color: #fff; }
+  .doc-btn.active .tag-brief { background: rgba(255,255,255,0.2); color: #fff; }
+
+  /* ── CONTENT AREA ── */
+  .content {
+    flex: 1;
+    height: calc(100vh - 130px);
+  }
+  .content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 130px);
+    color: var(--gray-600);
+    text-align: center;
+    padding: 40px;
+  }
+  .empty-state .icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    opacity: 0.4;
+  }
+  .empty-state h2 {
+    font-size: 1.2rem;
+    color: var(--gray-800);
+    margin-bottom: 8px;
+  }
+  .empty-state p {
+    font-size: 0.9rem;
+    max-width: 400px;
+    line-height: 1.5;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .header { padding: 16px 20px; }
+    .selector-bar { padding: 12px 20px; }
+    .doc-group-divider { display: none; }
+    .doc-group { width: 100%; }
+    .doc-btn { flex: 1; text-align: center; font-size: 0.72rem; padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Exploring Systems Like a Scientist</h1>
+    <p>Performance Assessment — CCW Review Materials</p>
+  </div>
+  <div class="header-badge">CCW Review</div>
+</div>
+
+<div class="selector-bar">
+  <div class="doc-group">
+    <span class="doc-group-label">Option 1 — Original:</span>
+    <button class="doc-btn" onclick="loadDoc('pa_original.html', this)">
+      PA Design <span class="btn-tag tag-design">DOC</span>
+    </button>
+    <button class="doc-btn" onclick="loadDoc('brief_original.html', this)">
+      Student Brief <span class="btn-tag tag-brief">INTERACTIVE</span>
+    </button>
+  </div>
+
+  <div class="doc-group-divider"></div>
+
+  <div class="doc-group">
+    <span class="doc-group-label">Option 2 — Domain-Fit Science:</span>
+    <button class="doc-btn" onclick="loadDoc('pa_domain_fit.html', this)">
+      PA Design <span class="btn-tag tag-design">DOC</span>
+    </button>
+    <button class="doc-btn" onclick="loadDoc('brief_science.html', this)">
+      Student Brief <span class="btn-tag tag-brief">INTERACTIVE</span>
+    </button>
+  </div>
+</div>
+
+<div class="content" id="content">
+  <div class="empty-state" id="emptyState">
+    <div class="icon">📋</div>
+    <h2>Select a document to review</h2>
+    <p>Choose from the options above. <strong>Option 1</strong> uses original real-world cases. <strong>Option 2</strong> uses domain-fit science cases. Each option has a PA Design doc and an interactive Student Brief.</p>
+  </div>
+</div>
+
+<script>
+function loadDoc(url, btn) {
+  // Update button states
+  document.querySelectorAll('.doc-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // Load in iframe
+  var content = document.getElementById('content');
+  var empty = document.getElementById('emptyState');
+  if (empty) empty.style.display = 'none';
+
+  // Remove existing iframe if any
+  var existing = content.querySelector('iframe');
+  if (existing) existing.remove();
+
+  var iframe = document.createElement('iframe');
+  iframe.src = url;
+  iframe.style.width = '100%';
+  iframe.style.height = '100%';
+  iframe.style.border = 'none';
+  content.appendChild(iframe);
+}
+</script>
+
+</body>
+</html>
