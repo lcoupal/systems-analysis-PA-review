@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approved Competencies &amp; Evidence Statements</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f8f9fa;
+    color: #343a40;
+    padding: 32px 40px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  h1 { font-size: 1.3rem; color: #003057; margin-bottom: 4px; }
+  .subtitle { font-size: 0.82rem; color: #6c757d; margin-bottom: 6px; }
+  .ksa-tag { font-size: 0.78rem; color: #555; font-style: italic; margin-bottom: 24px; }
+
+  /* ── SCOPE TABLE ── */
+  .scope-table {
+    width: 100%; border-collapse: collapse;
+    margin-bottom: 32px;
+    font-size: 13px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .scope-table th {
+    background: #003057; color: #fff;
+    padding: 11px 14px; text-align: left; font-weight: 600;
+  }
+  .scope-table td {
+    padding: 10px 14px; vertical-align: top;
+    border-bottom: 1px solid #e9ecef;
+    background: #fff;
+  }
+  .scope-table tr:last-child td { border-bottom: none; }
+  .scope-table .col-label { font-weight: 600; color: #003057; white-space: nowrap; width: 160px; }
+  .scope-table .comp-cell { width: 33%; }
+
+  .comp-name {
+    display: inline-block;
+    font-weight: 700; font-size: 0.82rem;
+    padding: 3px 10px; border-radius: 12px;
+    margin-bottom: 6px;
+  }
+  .comp-c1 { background: #e3f2fd; color: #1565c0; }
+  .comp-c2 { background: #fce4ec; color: #c62828; }
+  .comp-c3 { background: #e8f5e9; color: #2e7d32; }
+
+  .scope-list { margin: 0; padding: 0; list-style: none; }
+  .scope-list li { font-size: 0.8rem; color: #424242; padding: 2px 0; padding-left: 12px; position: relative; }
+  .scope-list li::before { content: "·"; position: absolute; left: 0; color: #999; }
+
+  .out-scope li::before { content: "✕"; color: #e57373; font-size: 0.65rem; top: 3px; }
+
+  /* ── SECTION DIVIDER ── */
+  .section-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 8px 0 20px;
+  }
+  .section-divider span {
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #6c757d; white-space: nowrap;
+  }
+  .section-divider hr { flex: 1; border: none; border-top: 1px solid #dee2e6; }
+
+  /* ── COMPETENCY BLOCKS ── */
+  .comp-block { margin-bottom: 16px; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+
+  .comp-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 20px; cursor: pointer; user-select: none;
+    border: none; width: 100%; text-align: left; font-family: inherit;
+    transition: opacity 0.15s;
+  }
+  .comp-header:hover { opacity: 0.92; }
+  .comp-header-c1 { background: #1565c0; color: #fff; }
+  .comp-header-c2 { background: #c62828; color: #fff; }
+  .comp-header-c3 { background: #2e7d32; color: #fff; }
+
+  .comp-badge {
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.07em; padding: 3px 10px; border-radius: 4px;
+    background: rgba(255,255,255,0.2); white-space: nowrap;
+  }
+  .comp-title { font-weight: 700; font-size: 1rem; flex: 1; }
+  .comp-statement { font-size: 0.78rem; opacity: 0.85; }
+  .comp-chevron { font-size: 0.8rem; opacity: 0.7; transition: transform 0.2s; flex-shrink: 0; transform: rotate(180deg); }
+  .comp-header.closed .comp-chevron { transform: rotate(0deg); }
+
+  .comp-body { background: #fff; border: 1px solid #e9ecef; border-top: none; border-radius: 0 0 8px 8px; }
+  .comp-body.closed { display: none; }
+
+  /* ── ES BLOCKS ── */
+  .es-block { border-bottom: 1px solid #f0f0f0; }
+  .es-block:last-child { border-bottom: none; }
+
+  .es-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 20px; cursor: pointer; user-select: none;
+    background: #fff; border: none; width: 100%; text-align: left;
+    font-family: inherit; transition: background 0.12s;
+  }
+  .es-header:hover { background: #f8f9fa; }
+
+  .es-badge {
+    font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; padding: 2px 8px; border-radius: 3px;
+    white-space: nowrap;
+  }
+  .es-badge-c1 { background: #e3f2fd; color: #1565c0; }
+  .es-badge-c2 { background: #fce4ec; color: #c62828; }
+  .es-badge-c3 { background: #e8f5e9; color: #2e7d32; }
+
+  .es-code { font-weight: 700; font-size: 0.82rem; color: #003057; white-space: nowrap; }
+  .es-statement { font-size: 0.82rem; color: #343a40; flex: 1; }
+  .es-chevron { font-size: 0.65rem; opacity: 0.4; transition: transform 0.2s; flex-shrink: 0; transform: rotate(180deg); }
+  .es-header.closed .es-chevron { transform: rotate(0deg); }
+
+  .es-body { padding: 4px 20px 16px 20px; background: #fafafa; }
+  .es-body.closed { display: none; }
+
+  .sub-group { margin-bottom: 14px; }
+  .sub-group-title {
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: #6c757d; margin-bottom: 4px;
+  }
+  .sub-focus {
+    font-size: 0.75rem; color: #888; font-style: italic; margin-bottom: 6px;
+  }
+  .line-items { list-style: none; padding: 0; margin: 0; }
+  .line-items li {
+    font-size: 0.8rem; color: #424242; padding: 3px 0 3px 14px;
+    position: relative; border-bottom: 1px solid #f0f0f0;
+  }
+  .line-items li:last-child { border-bottom: none; }
+  .line-items li::before { content: "→"; position: absolute; left: 0; color: #bbb; font-size: 0.7rem; top: 4px; }
+  .strikethrough { text-decoration: line-through; color: #bbb; }
+
+  /* ── CONTROLS ── */
+  .controls { display: flex; gap: 8px; margin-bottom: 20px; }
+  .ctrl-btn {
+    padding: 5px 12px; border: 1px solid #ccc; border-radius: 5px;
+    background: #fff; color: #555; font-size: 0.75rem; font-family: inherit;
+    cursor: pointer; transition: all 0.12s;
+  }
+  .ctrl-btn:hover { background: #f0f4f8; border-color: #003057; color: #003057; }
+
+  @media (max-width: 700px) { body { padding: 16px; } .scope-table .comp-cell { width: auto; } }
+</style>
+</head>
+<body>
+
+<h1>Exploring Systems Like a Scientist</h1>
+<p class="subtitle">Scope Table — Cognitive Architecture Revision</p>
+<p class="ksa-tag">C1 = Evaluates (Knowledge) → C2 = Supports (Skill) → C3 = Explains Systems (Ability)</p>
+
+<!-- ═══════════════════════════════════════ ES DETAIL ═══════════════════════════════════════ -->
+<div class="section-divider">
+  <span>Evidence Statements — Line Items</span>
+  <hr>
+</div>
+
+<div class="controls">
+  <button class="ctrl-btn" onclick="toggleAll(true)">Expand All</button>
+  <button class="ctrl-btn" onclick="toggleAll(false)">Collapse All</button>
+</div>
+
+<!-- ── C1 ── -->
+<div class="comp-block">
+  <button class="comp-header comp-header-c1" onclick="toggleComp(this)">
+    <span class="comp-badge">Competency</span>
+    <span class="comp-title">C1: Evaluates Claims</span>
+    <span class="comp-statement">The learner evaluates scientific claims. (Level 2)</span>
+    <span class="comp-chevron">▼</span>
+  </button>
+  <div class="comp-body">
+
+    <!-- C1-ES1 -->
+    <div class="es-block">
+      <button class="es-header" onclick="toggleES(this)">
+        <span class="es-badge es-badge-c1">Evidence Statement</span>
+        <span class="es-code">C1-ES1</span>
+        <span class="es-statement">The learner identifies the components of a scientific claim, including the claim, supporting evidence, and reasoning.</span>
+        <span class="es-chevron">▼</span>
+      </button>
+      <div class="es-body">
+        <div class="sub-group">
+          <div class="sub-group-title">Claim Structure</div>
+          <div class="sub-focus">Focus: What are the parts of a scientific claim and how do they fit together?</div>
+          <ul class="line-items">
+            <li>Defining what is a scientific claim</li>
+            <li>Identify the role of scientific claims in asking questions and sharing ideas</li>
+            <li>Identify the components of a scientific claim</li>
+            <li>Identify the claim, supporting evidence, and underlying assumptions</li>
+            <li>Distinguish between statements of fact, opinion, and inference</li>
+          </ul>
+        </div>
+        <div class="sub-group">
+          <div class="sub-group-title">Evidence Types</div>
+          <div class="sub-focus">Focus: What kinds of evidence exist and what assumptions do they carry?</div>
+          <ul class="line-items">
+            <li>Distinguishing quantitative, qualitative, and observational evidence</li>
+            <li>Identifying underlying assumptions in claims and evidence</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- C1-ES2 -->
+    <div class="es-block">
+      <button class="es-header" onclick="toggleES(this)">
+        <span class="es-badge es-badge-c1">Evidence Statement</span>
+        <span class="es-code">C1-ES2</span>
+        <span class="es-statement">The learner distinguishes scientific claims from opinion, inference, or misinformation.</span>
+        <span class="es-chevron">▼</span>
+      </button>
+      <div class="es-body">
+        <div class="sub-group">
+          <div class="sub-group-title">Scientific vs. Non-Scientific Claims</div>
+          <div class="sub-focus">Focus: What makes a claim scientific, and what doesn't?</div>
+          <ul class="line-items">
+            <li>Distinguishing scientific claims from non-scientific claims (e.g., pseudoscience and misinformation)</li>
+            <li>Differentiating scientific claims from scientific knowledge</li>
+            <li>Recognizing how scientific knowledge evolves over time</li>
+            <li>Recognizing that scientific claims are testable and open to revision</li>
+            <li>Considering the historical context of scientific discovery</li>
+            <li>Understanding the role of peer review in validating scientific findings</li>
+          </ul>
+        </div>
+        <div class="sub-group">
+          <div class="sub-group-title">Bias and Misleading Representations</div>
+          <div class="sub-focus">Focus: How can claims or sources be misleading, and how do you spot it?</div>
+          <ul class="line-items">
+            <li>Identify bias, misinformation, or misleading representations</li>
+            <li>Evaluate credibility and limitations of sources at an introductory level</li>
+            <li>Identify cherry-picked data or evidence that ignores contradictory findings</li>
+            <li>Recognize emotional appeals and false urgency used to persuade</li>
+            <li>Identify absolute claims that oversimplify complex evidence</li>
+            <li>Understanding potential biases in tech-generated responses or datasets</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- C1-ES3 -->
+    <div class="es-block">
+      <button class="es-header" onclick="toggleES(this)">
+        <span class="es-badge es-badge-c1">Evidence Statement</span>
+        <span class="es-code">C1-ES3</span>
+        <span class="es-statement">The learner evaluates the quality and relevance of evidence used in a given scientific claim.</span>
+        <span class="es-chevron">▼</span>
+      </button>
+      <div class="es-body">
+        <div class="sub-group">
+          <div class="sub-group-title">Evidence Quality</div>
+          <div class="sub-focus">Focus: Is the evidence appropriate, sufficient, and relevant to the claim?</div>
+          <ul class="line-items">
+            <li>Analyze evidence used to support existing scientific claims</li>
+            <li>Identify missing, weak, or misapplied evidence</li>
+            <li>Assess whether evidence is relevant, credible, and sufficient</li>
+            <li>Recognize different types of evidence and when each is appropriate</li>
+            <li>Identify missing or underrepresented evidence</li>
+            <li>Consider whether the evidence applies to the population, setting, or context</li>
+            <li>Predict what kinds of evidence would be relevant</li>
+            <li>Check whether the evidence directly measures what the claim asserts</li>
+            <li>Check whether appropriate comparisons or controls were used</li>
+            <li>Recognizing the role of controls in evaluating whether evidence supports a claim</li>
+            <li>Identify missing scientific, societal, or ethical considerations</li>
+            <li>Considering whether a claim has been peer-reviewed</li>
+            <li>Using digital tools (including AI) to find or evaluate evidence</li>
+          </ul>
+        </div>
+        <div class="sub-group">
+          <div class="sub-group-title">Reasoning Quality</div>
+          <div class="sub-focus">Focus: Can the student understand the claim and assess whether the logic connecting evidence to it holds up?</div>
+          <ul class="line-items">
+            <li>Interpret scientific claims using basic scientific models or concepts</li>
+            <li>Restate the claim in plain language and identify the basic scientific concept/model</li>
+            <li>Explain how the claim is supposed to work using that concept</li>
+            <li>Explain why a claim is or is not supported based on available evidence</li>
+            <li>Check whether there is a plausible mechanism connecting the evidence to the claim</li>
+            <li>Apply simple evaluation criteria to assess scientific reasoning</li>
+            <li>Use foundational science knowledge to critique claims</li>
+            <li>Identify key assumptions the claim depends on</li>
+            <li>Identify gaps, unsupported assumptions, or overgeneralizations in the reasoning</li>
+            <li>Recognize when evidence shows an association or trend rather than cause-effect</li>
+            <li>Recognizing spurious correlations</li>
+            <li>Apply evaluation skills within structured, scenario-based contexts</li>
+          </ul>
+        </div>
+        <div class="sub-group">
+          <div class="sub-group-title">Data Interpretation</div>
+          <div class="sub-focus">Focus: Can the student read and interpret evidence accurately?</div>
+          <ul class="line-items">
+            <li>Examine and interpret data or evidence related to claims</li>
+            <li>Reading graphs and tables accurately</li>
+            <li>Recognizing general trends (increasing, decreasing, no change)</li>
+            <li>Understanding what a data point or bar represents</li>
+            <li>Recognizing when data shows clear differences versus uncertain results</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── C2 ── -->
+<div class="comp-block">
+  <button class="comp-header comp-header-c2" onclick="toggleComp(this)">
+    <span class="comp-badge">Competency</span>
+    <span class="comp-title">C2: Supports Claims</span>
+    <span class="comp-statement">The learner supports a scientific claim with evidence. (Level 2)</span>
+    <span class="comp-chevron">▼</span>
+  </button>
+  <div class="comp-body">
+
+    <!-- C2-ES1 -->
+    <div class="es-block">
+      <button class="es-header" onclick="toggleES(this)">
+        <span class="es-badge es-badge-c2">Evidence Statement</span>
+        <span class="es-code">C2-ES1</span>
+        <span class="es-statement">The learner makes a scientific claim based on provided information.</span>
+        <span class="es-chevron">▼</span>
+      </button>
+      <div class="es-body">
+        <div class="sub-group">
+          <div class="sub-group-title">Claim Construction</div>
+          <div class="sub-focus">Focus: How do you build a clear, structured scientific claim?</div>
+          <ul class="line-items">
+            <li>Constructing a scientific claim</li>
+            <li>Using the CER Framework for Constructing a Claim</li>
+            <li>Translating scientific language to plain language</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- C2-ES2 -->
+    <div class="es-block">
+      <button class="es-header" onclick="toggleES(this)">
+        <span class="es-badge es-badge-c2">Evidence Statement</span>
+        <span class="es-code">C2-ES2</span>
+        <span class="es-statement">The learner supports the claim with relevant and credible evidence.</span>
+        <span class="es-chevron">▼</span>
+      </button>
+      <div class="es-body">
+        <div class="sub-group">
+          <div class="sub-group-title">Source Selection and Credibility</div>
+          <div class="sub-focus">Focus: Where does the evidence come from and can it be trusted?</div>
+          <ul class="line-items">
+            <li>Considering bias, assumptions, and credibility of sources</li>
+            <li>Locating evidence through secondary sources accessible to non-specialists</li>
+            <li>Evaluating the credibility of secondary sources</li>
+            <li>Understanding how the type of source affects credibility</li>
+          </ul>
+        </div>
+        <div class="sub-group">
+          <div class="sub-group-title">Evidence-to-Claim Reasoning</div>
+          <div class="sub-focus">Focus: How do you connect evidence to a claim logically?</div>
+          <ul class="line-items">
+            <li>Connecting evidence to claims clearly</li>
+            <li>Explaining why evidence adequately supports a claim</li>
+            <li>Identifying when evidence does not adequately support a claim</li>
+            <li>Using scientific principles to explain why evidence supports a claim</li>
+            <li>Avoiding circular reasoning where evidence is restated as justification</li>
+            <li>Distinguishing between correlation and causation when connecting evidence to claims</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- C2-ES3 -->
+    <div class="es-block">
+      <button class="es-header" onclick="toggleES(this)">
+        <span class="es-badge es-badge-c2">Evidence Statement</span>
+        <span class="es-code">C2-ES3</span>
+        <span class="es-statement">The learner evaluates a counterclaim using evidence. <span class="strikethrough">(formerly: refutes a counterclaim)</span></span>
+        <span class="es-chevron">▼</span>
+      </button>
+      <div class="es-body">
+        <div class="sub-group">
+          <div class="sub-group-title">Counterclaims and Public Impact</div>
+          <div class="sub-focus">Focus: What happens when a claim is challenged, and what are the stakes?</div>
+          <ul class="line-items">
+            <li>Considering ethical implications of communicating scientific claims to the public</li>
+            <li>Not about ethics as content, but ethics as consequence</li>
+            <li>Aligns with misinformation and public impact examples</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── C3 ── -->
+<div class="comp-block">
+  <button class="comp-header comp-header-c3" onclick="toggleComp(this)">
+    <span class="comp-badge">Competency</span>
+    <span class="comp-title">C3: Explains Systems</span>
+    <span class="comp-statement">The learner explains real-world systems using scientific reasoning. (Level 2)</span>
+    <span class="comp-chevron">▼</span>
+  </button>
+  <div class="comp-body">
+
+    <!-- C3-ES1 -->
+    <div class="es-block">
+      <button class="es-header" onclick="toggleES(this)">
+        <span class="es-badge es-badge-c3">Evidence Statement</span>
+        <span class="es-code">C3-ES1</span>
+        <span class="es-statement">The learner identifies the components and boundaries of a real-world system.</span>
+        <span class="es-chevron">▼</span>
+      </button>
+      <div class="es-body">
+        <div class="sub-group">
+          <div class="sub-group-title">System Boundaries and Components</div>
+          <div class="sub-focus">Focus: What is inside the system and what is outside it?</div>
+          <ul class="line-items">
+            <li>Define systems, components, and boundaries</li>
+            <li>Identify what is included in the system vs. outside it</li>
+            <li>Identify key components and their roles in the system</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- C3-ES2 -->
+    <div class="es-block">
+      <button class="es-header" onclick="toggleES(this)">
+        <span class="es-badge es-badge-c3">Evidence Statement</span>
+        <span class="es-code">C3-ES2</span>
+        <span class="es-statement">The learner describes interactions and feedback patterns within a real-world system.</span>
+        <span class="es-chevron">▼</span>
+      </button>
+      <div class="es-body">
+        <div class="sub-group">
+          <div class="sub-group-title">Interactions and Feedback</div>
+          <div class="sub-focus">Focus: How do the parts of the system influence each other?</div>
+          <ul class="line-items">
+            <li>Identify interactions, feedback loops, and patterns</li>
+            <li>Describe how components influence one another</li>
+            <li>Recognize feedback loops in plain language (reinforcing or balancing)</li>
+            <li>Identify patterns or recurring behaviors in the system</li>
+            <li>Explain why single-cause explanations can be incomplete</li>
+            <li>Describe how relationships between parts shape outcomes</li>
+            <li>Explain the value of a systems perspective</li>
+          </ul>
+        </div>
+        <div class="sub-group">
+          <div class="sub-group-title">Communicating System Understanding</div>
+          <div class="sub-focus">Focus: Can the student explain how the system works clearly?</div>
+          <ul class="line-items">
+            <li>Communicate system understanding clearly</li>
+            <li>Explain system structure or behavior using straightforward language</li>
+            <li>Use simple visuals (e.g., labeled diagram, arrows showing influence)</li>
+          </ul>
+        </div>
+        <div class="sub-group">
+          <div class="sub-group-title">Tracing Change Through Systems</div>
+          <div class="sub-focus">Focus: What happens when something in the system changes?</div>
+          <ul class="line-items">
+            <li>Connect foundational scientific concepts to system behavior</li>
+            <li>Explain how interactions are more appropriate than cause-and-effect reasoning for a given system</li>
+            <li>Ask scientific questions about system behavior</li>
+            <li>Ask what influences what in the system</li>
+            <li>Ask what might change if a component changes</li>
+            <li>Explain how changes in one part influence other components over time</li>
+            <li>Trace how a change moves through the system step-by-step</li>
+            <li>Identify which components are most affected and why</li>
+            <li>Describe how feedback loops may amplify or reduce the effects</li>
+            <li>Explain ripple effects across connected components</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- C3-ES3 -->
+    <div class="es-block">
+      <button class="es-header" onclick="toggleES(this)">
+        <span class="es-badge es-badge-c3">Evidence Statement</span>
+        <span class="es-code">C3-ES3</span>
+        <span class="es-statement">The learner applies foundational scientific concepts to explain system outcomes.</span>
+        <span class="es-chevron">▼</span>
+      </button>
+      <div class="es-body">
+        <div class="sub-group">
+          <div class="sub-group-title">Applying Concepts to Outcomes</div>
+          <div class="sub-focus">Focus: How do scientific concepts help explain what is happening in the system?</div>
+          <ul class="line-items">
+            <li>Use concepts like cycles, energy flow, or change over time when relevant</li>
+            <li>Explain how the concept helps interpret what is happening in the system</li>
+            <li>Ask why outcomes may differ across contexts or conditions</li>
+            <li>Describe outcomes based on interactions among system components</li>
+            <li>Use the relationships in the system to explain outcomes (not isolated events)</li>
+            <li>Support explanations with scenario information</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- C3-ES4 -->
+    <div class="es-block">
+      <button class="es-header" onclick="toggleES(this)">
+        <span class="es-badge es-badge-c3">Evidence Statement</span>
+        <span class="es-code">C3-ES4</span>
+        <span class="es-statement">The learner describes societal or ethical factors that influence or are influenced by the system.</span>
+        <span class="es-chevron">▼</span>
+      </button>
+      <div class="es-body">
+        <div class="sub-group">
+          <div class="sub-group-title">Consequences and Trade-offs</div>
+          <div class="sub-focus">Focus: What are the intended and unintended effects of changes in the system?</div>
+          <ul class="line-items">
+            <li>Explain intended and unintended impacts of changes within a system</li>
+            <li>Identify intended outcomes of a decision or change</li>
+            <li>Identify unintended consequences or trade-offs</li>
+            <li>Acknowledge trade-offs and value-based considerations</li>
+            <li>Identify benefits and costs connected to decisions in the system</li>
+          </ul>
+        </div>
+        <div class="sub-group">
+          <div class="sub-group-title">Human Choices and Institutions</div>
+          <div class="sub-focus">Focus: How do people, norms, and institutions shape the system?</div>
+          <ul class="line-items">
+            <li>Consider cultural, societal, and ethical perspectives in systems analysis</li>
+            <li>Identify how human choices influence system behavior</li>
+            <li>Consider how beliefs, incentives, or norms shape decisions</li>
+            <li>Identify relevant societal or ethical considerations at an introductory level</li>
+            <li>Recognize how societies, cultures, and governments function within systems</li>
+            <li>Identify how policies, rules, or institutions affect system behavior</li>
+            <li>Describe how access and resources influence outcomes</li>
+          </ul>
+        </div>
+        <div class="sub-group">
+          <div class="sub-group-title">Perspective and Equity</div>
+          <div class="sub-focus">Focus: Who is affected, and how does perspective shape the analysis?</div>
+          <ul class="line-items">
+            <li>Explain why stakeholders may prioritize different outcomes</li>
+            <li>Consider how impacts differ across groups or perspectives</li>
+            <li>Identify who is affected differently and how</li>
+            <li>Explain how perspective changes what outcomes are emphasized</li>
+            <li>Communicate explanations in a clear, fair way across viewpoints</li>
+            <li>Recognize human-centered biases in systems analysis</li>
+            <li>Identify assumptions that shape interpretation</li>
+            <li>Notice common biases (e.g., focusing on short-term outcomes or single causes)</li>
+            <li>Reflect on how perspective influences interpretation and communication</li>
+            <li>Explain how one's perspective may affect conclusions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function toggleComp(btn) {
+    btn.classList.toggle('closed');
+    btn.nextElementSibling.classList.toggle('closed');
+  }
+
+  function toggleES(btn) {
+    btn.classList.toggle('closed');
+    btn.nextElementSibling.classList.toggle('closed');
+  }
+
+  function toggleAll(expand) {
+    document.querySelectorAll('.comp-header, .es-header').forEach(btn => {
+      const body = btn.nextElementSibling;
+      if (expand) {
+        btn.classList.remove('closed');
+        body.classList.remove('closed');
+      } else {
+        btn.classList.add('closed');
+        body.classList.add('closed');
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
