@@ -260,46 +260,46 @@
         </div>
         
         <div class="part-wrapper" id="compOwnership" style="margin-bottom: 24px;">
-            <div style="background: #003057; color: #fff; padding: 12px 24px; border-radius: 8px 8px 0 0; display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none;" onclick="togglePart('compPanel')">
-                <span style="background: rgba(255,255,255,0.2); padding: 3px 12px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">ℹ</span>
-                <span style="font-weight: 600; font-size: 0.92rem; flex: 1;">Competency Ownership by Part</span>
-                <span id="compPanelArrow" style="font-size: 1.2rem; transition: transform 0.2s;">▶</span>
-            </div>
-            <div id="compPanelContent" style="display: none; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px; padding: 20px; background: #fff;">
-                <p style="font-size: 0.85rem; color: #424242; margin-bottom: 16px;">Each competency has a primary home part. C1 appears in both but is assessed on different dimensions.</p>
-                <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem;">
-                    <thead>
-                        <tr style="background: #003057; color: #fff;">
-                            <th style="padding: 10px 12px; text-align: left; font-weight: 600; border-radius: 6px 0 0 0;">Comp</th>
-                            <th style="padding: 10px 12px; text-align: left; font-weight: 600;">Competency</th>
-                            <th style="padding: 10px 12px; text-align: center; font-weight: 600;">Part 1 (Evaluate)</th>
-                            <th style="padding: 10px 12px; text-align: center; font-weight: 600; border-radius: 0 6px 0 0;">Part 2 (Construct)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 10px 12px; font-weight: 700; color: #003057;">C1</td>
-                            <td style="padding: 10px 12px;">Evidence-Based Claims</td>
-                            <td style="padding: 10px 12px; text-align: center;"><strong>ES1, ES3</strong> <span style="font-size: 0.75rem; color: #757575; font-style: italic;">(evaluate)</span></td>
-                            <td style="padding: 10px 12px; text-align: center;"><strong>ES1, ES2, ES3, ES4</strong> <span style="font-size: 0.75rem; color: #757575; font-style: italic;">(construct)</span></td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #eee; background: #fafafa;">
-                            <td style="padding: 10px 12px; font-weight: 700; color: #003057;">C2</td>
-                            <td style="padding: 10px 12px;">Evidence Quality</td>
-                            <td style="padding: 10px 12px; text-align: center;"><strong>ES1, ES2, ES3</strong> <span style="font-size: 0.75rem; color: #757575; font-style: italic;">(full)</span></td>
-                            <td style="padding: 10px 12px; text-align: center; color: #bdbdbd;">&mdash;</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px 12px; font-weight: 700; color: #003057;">C3</td>
-                            <td style="padding: 10px 12px;">Real-World Systems</td>
-                            <td style="padding: 10px 12px; text-align: center;"><strong>ES1+2, ES3, ES4</strong> <span style="font-size: 0.75rem; color: #757575; font-style: italic;">(full)</span></td>
-                            <td style="padding: 10px 12px; text-align: center; color: #757575;">ES3 <span style="font-size: 0.75rem; font-style: italic;">(reinforced)</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p style="font-size: 0.78rem; color: #757575; margin-top: 12px; font-style: italic;">C2 is fully assessed in Part 1 only. C3 is primarily in Part 1 with reinforcement in Part 2. C1 is split: evaluate dimension in Part 1, construct dimension in Part 2.</p>
-            </div>
-        </div>
+    <div style="background: #003057; color: #fff; padding: 12px 24px; border-radius: 8px 8px 0 0; display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none;" onclick="togglePart('compPanel')">
+        <span style="background: rgba(255,255,255,0.2); padding: 3px 12px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">ℹ</span>
+        <span style="font-weight: 600; font-size: 0.92rem; flex: 1;">Competency Ownership by Part</span>
+        <span id="compPanelArrow" style="font-size: 1.2rem; transition: transform 0.2s;">▶</span>
+    </div>
+    <div id="compPanelContent" style="display: none; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px; padding: 20px; background: #fff;">
+        <p style="font-size: 0.85rem; color: #424242; margin-bottom: 16px;">Each competency has a primary home part. C1 (Evaluates Opposing Claims) lives entirely in Part 1. C2 (Supports a Scientific Claim) lives entirely in Part 2. C3 (Explains Real-World Systems) is primarily Part 1 with reinforcement in Part 2.</p>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem;">
+            <thead>
+                <tr style="background: #003057; color: #fff;">
+                    <th style="padding: 10px 12px; text-align: left; font-weight: 600; border-radius: 6px 0 0 0;">Comp</th>
+                    <th style="padding: 10px 12px; text-align: left; font-weight: 600;">Competency</th>
+                    <th style="padding: 10px 12px; text-align: center; font-weight: 600;">Part 1 (Evaluate)</th>
+                    <th style="padding: 10px 12px; text-align: center; font-weight: 600; border-radius: 0 6px 0 0;">Part 2 (Construct)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 10px 12px; font-weight: 700; color: #003057;">C1</td>
+                    <td style="padding: 10px 12px;">Evaluates Opposing Claims</td>
+                    <td style="padding: 10px 12px; text-align: center;"><strong>ES1, ES2, ES3</strong> <span style="font-size: 0.75rem; color: #757575; font-style: italic;">(full)</span></td>
+                    <td style="padding: 10px 12px; text-align: center; color: #bdbdbd;">&mdash;</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #eee; background: #fafafa;">
+                    <td style="padding: 10px 12px; font-weight: 700; color: #003057;">C2</td>
+                    <td style="padding: 10px 12px;">Supports a Scientific Claim</td>
+                    <td style="padding: 10px 12px; text-align: center; color: #bdbdbd;">&mdash;</td>
+                    <td style="padding: 10px 12px; text-align: center;"><strong>ES1, ES2, ES3</strong> <span style="font-size: 0.75rem; color: #757575; font-style: italic;">(full)</span></td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px 12px; font-weight: 700; color: #003057;">C3</td>
+                    <td style="padding: 10px 12px;">Explains Real-World Systems</td>
+                    <td style="padding: 10px 12px; text-align: center;"><strong>ES1, ES2, ES3, ES4</strong> <span style="font-size: 0.75rem; color: #757575; font-style: italic;">(full)</span></td>
+                    <td style="padding: 10px 12px; text-align: center; color: #757575;">ES3 <span style="font-size: 0.75rem; font-style: italic;">(reinforced)</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-size: 0.78rem; color: #757575; margin-top: 12px; font-style: italic;">C1 is fully assessed in Part 1 only. C2 is fully assessed in Part 2 only. C3 is primarily in Part 1 with reinforcement in Part 2. This creates a clean separation: evaluate in Part 1, construct in Part 2, systems thinking throughout.</p>
+    </div>
+</div>
 
         <div class="part-wrapper" id="part1Wrapper">
             <div style="background: #003057; color: #fff; padding: 14px 24px; border-radius: 8px 8px 0 0; display: flex; align-items: center; gap: 14px; cursor: pointer; user-select: none;" onclick="togglePart('part1')">
