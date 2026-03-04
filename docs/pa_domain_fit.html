@@ -34,14 +34,15 @@
     font-size: 0.75em; opacity: 0.8;
     transition: transform 0.2s ease;
     flex-shrink: 0; margin-left: 12px;
+    transform: rotate(180deg);
   }
-  .section-toggle.open .chevron { transform: rotate(180deg); }
+  .section-toggle.closed .chevron { transform: rotate(0deg); }
 
   .section-body {
     padding: 20px 24px;
-    display: none;
+    display: block;
   }
-  .section-body.open { display: block; }
+  .section-body.closed { display: none; }
 
   /* ── SUBSECTIONS (h2) ── */
   .subsection { margin: 16px 0; border: 1px solid #e8e8e8; border-radius: 6px; overflow: hidden; }
@@ -59,11 +60,12 @@
     font-size: 0.7em; opacity: 0.6;
     transition: transform 0.2s ease;
     flex-shrink: 0; margin-left: 12px;
+    transform: rotate(180deg);
   }
-  .subsection-toggle.open .chevron { transform: rotate(180deg); }
+  .subsection-toggle.closed .chevron { transform: rotate(0deg); }
 
-  .subsection-body { padding: 16px 20px; display: none; }
-  .subsection-body.open { display: block; }
+  .subsection-body { padding: 16px 20px; display: block; }
+  .subsection-body.closed { display: none; }
 
   /* ── EXPAND/COLLAPSE ALL ── */
   .controls {
@@ -511,26 +513,26 @@
 
 <script>
   function toggleSection(btn) {
-    btn.classList.toggle('open');
+    btn.classList.toggle('closed');
     const body = btn.nextElementSibling;
-    body.classList.toggle('open');
+    body.classList.toggle('closed');
   }
 
   function toggleSubsection(btn) {
-    btn.classList.toggle('open');
+    btn.classList.toggle('closed');
     const body = btn.nextElementSibling;
-    body.classList.toggle('open');
+    body.classList.toggle('closed');
   }
 
   function toggleAll(expand) {
     document.querySelectorAll('.section-toggle, .subsection-toggle').forEach(btn => {
       const body = btn.nextElementSibling;
       if (expand) {
-        btn.classList.add('open');
-        body.classList.add('open');
+        btn.classList.remove('closed');
+        body.classList.remove('closed');
       } else {
-        btn.classList.remove('open');
-        body.classList.remove('open');
+        btn.classList.add('closed');
+        body.classList.add('closed');
       }
     });
   }
